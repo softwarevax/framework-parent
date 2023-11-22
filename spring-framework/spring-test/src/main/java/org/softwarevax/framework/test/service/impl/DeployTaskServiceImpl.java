@@ -12,10 +12,15 @@ import java.util.List;
 public class DeployTaskServiceImpl implements DeployTaskService {
 
     @AutowiredVax
-    private DeployTaskMapper deployTaskMapper;
+    private DeployTaskMapper taskMapper;
 
     @Override
     public List<DeployTask> findAll() {
-        return deployTaskMapper.queryList();
+        return taskMapper.queryList();
+    }
+
+    @Override
+    public String hello(String msg) {
+        return "hello " + msg;
     }
 }

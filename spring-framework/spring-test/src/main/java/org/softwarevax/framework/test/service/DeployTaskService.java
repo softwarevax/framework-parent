@@ -7,4 +7,6 @@ import java.util.List;
 public interface DeployTaskService {
 
     List<DeployTask> findAll();
+
+    String hello(String msg);
 }

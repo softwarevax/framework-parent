@@ -1,25 +1,22 @@
 package org.softwarevax.framework.test;
 
-import com.alibaba.fastjson.JSON;
 import org.softwarevax.framework.context.ApplicationContext;
 import org.softwarevax.framework.context.SpringApplicationRunner;
 import org.softwarevax.framework.core.annotations.SpringApplicationVax;
-import org.softwarevax.framework.test.entity.DeployTask;
 import org.softwarevax.framework.test.service.impl.DeployTaskServiceImpl;
-
-import java.util.List;
 
 
 @SpringApplicationVax(packages = "org.softwarevax.framework.test")
 public class TestApplication {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         ApplicationContext context = SpringApplicationRunner.run(TestApplication.class);
         DeployTaskServiceImpl testService = context.getBean(DeployTaskServiceImpl.class);
-        List<DeployTask> all = testService.findAll();
-        System.out.println(JSON.toJSONString(all));
+        String msg = testService.hello("world!");
+        System.out.println(msg);
     }
 }
+
 
 
 /** binlog
