@@ -4,14 +4,13 @@ import org.softwarevax.framework.beans.GlobalConstants;
 import org.softwarevax.framework.utils.AnnotationUtils;
 
 import java.lang.reflect.AnnotatedElement;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 类解析器
+ * 类解析器(不支持构造器注入: 不支持循环依赖)
  */
 public class GenericDependOnDefinitionParser implements DependOnDefinitionParser {
 
@@ -19,7 +18,7 @@ public class GenericDependOnDefinitionParser implements DependOnDefinitionParser
 
     private Class<?> clazz;
 
-    private Constructor[] constructors;
+    //private Constructor[] constructors;
 
     private Field[] fields;
 
@@ -28,11 +27,11 @@ public class GenericDependOnDefinitionParser implements DependOnDefinitionParser
     @Override
     public void setClass(Class<?> clazz) {
         this.clazz = clazz;
-        this.constructors = clazz.getDeclaredConstructors();
+        //this.constructors = clazz.getDeclaredConstructors();
         this.fields = clazz.getDeclaredFields();
         this.methods = clazz.getMethods();
         this.dependOnDefinitions = new ArrayList<>();
-        parseAnnotatedElement(constructors);
+        //parseAnnotatedElement(constructors);
         parseAnnotatedElement(fields);
         parseAnnotatedElement(methods);
     }
@@ -47,9 +46,9 @@ public class GenericDependOnDefinitionParser implements DependOnDefinitionParser
             if(annotated instanceof Method) {
                 this.parseAnnotatedElement(((Method) annotated).getParameters());
             }
-            if(annotated instanceof Constructor) {
+            /*if(annotated instanceof Constructor) {
                 this.parseAnnotatedElement(((Constructor) annotated).getParameters());
-            }
+            }*/
             if(!AnnotationUtils.containsAnyAnnotation(annotated, GlobalConstants.AUTOWIRED_ANNOTATIONS)) {
                 continue;
             }

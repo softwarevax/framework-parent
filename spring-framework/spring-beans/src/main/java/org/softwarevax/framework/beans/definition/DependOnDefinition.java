@@ -11,6 +11,8 @@ import java.lang.reflect.AnnotatedElement;
  */
 public interface DependOnDefinition {
 
+    Class<?> getClazz();
+
     /**
      * 当前元素的归属类
      * @return
@@ -25,7 +27,11 @@ public interface DependOnDefinition {
 
     /**
      * 获取自动注入的方式
-     * 仅支持：ElementType.FIELD, ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.PARAMETER
+     * 仅支持：
+     * ElementType.FIELD,
+     * ElementType.METHOD,
+     * // ElementType.CONSTRUCTOR,
+     * ElementType.PARAMETER
      * @return
      */
     ElementType getAutowiredType();

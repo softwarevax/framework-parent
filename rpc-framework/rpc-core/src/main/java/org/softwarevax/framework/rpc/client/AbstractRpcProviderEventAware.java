@@ -2,8 +2,8 @@ package org.softwarevax.framework.rpc.client;
 
 import com.alibaba.fastjson.JSON;
 import io.netty.channel.Channel;
-import org.softwarevax.framework.core.ApplicationContext;
-import org.softwarevax.framework.core.ApplicationContextEventAware;
+import org.softwarevax.framework.context.ApplicationContext;
+import org.softwarevax.framework.context.event.ApplicationContextEvent;
 import org.softwarevax.framework.rpc.BootstrapClient;
 import org.softwarevax.framework.rpc.entity.MethodEntity;
 import org.softwarevax.framework.rpc.entity.ServiceConfig;
@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class AbstractRpcProviderEventAware implements ApplicationContextEventAware {
+public abstract class AbstractRpcProviderEventAware implements ApplicationContextEvent {
 
     public final static String RPC_CLASSPATH_NAME = "rpc.properties";
 
@@ -29,7 +29,7 @@ public abstract class AbstractRpcProviderEventAware implements ApplicationContex
             String packages = (String) prop.get(Constants.SERVER_REGISTRY_PACKAGE);
             String applicationName = (String) prop.get(Constants.APPLICATION_NAME);
             String applicationId = (String) prop.get(Constants.APPLICATION_ID);
-            Iterator<Class<?>> iterator = ctx.getClasses(null).iterator();
+            Iterator<Class<?>> iterator = null; //ctx.getClasses(null).iterator();
             while (iterator.hasNext()) {
                 Class<?> next = iterator.next();
                 String packageName = next.getPackage().getName();
@@ -39,7 +39,7 @@ public abstract class AbstractRpcProviderEventAware implements ApplicationContex
             }
             ServiceConfig config = new ServiceConfig();
             config.setHostName(NetWorkUtils.getIp());
-            config.setPort(ctx.getPort());
+            //config.setPort(ctx.getPort());
             config.setAppName(applicationName);
             config.setAppId(applicationId);
             List<ServiceEntity> services = new ArrayList<>();

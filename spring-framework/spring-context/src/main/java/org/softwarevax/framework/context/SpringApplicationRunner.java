@@ -1,4 +1,4 @@
-package org.softwarevax.framework.core;
+package org.softwarevax.framework.context;
 
 import org.softwarevax.framework.core.annotations.SpringApplicationVax;
 import org.softwarevax.framework.utils.AnnotationUtils;

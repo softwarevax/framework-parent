@@ -8,12 +8,12 @@ import java.util.List;
 public interface BeanFactory {
 
     /**
-     * 根据bean的key获取实例
-     * @param key 实例key
+     * 根据bean的名称获取实例
+     * @param beanName 实例名称
      * @return 实例
      * @throws BeansException
      */
-    Object getBean(String key) throws BeansException;
+    Object getBean(String beanName) throws BeansException;
 
     /**
      * 根据bean的class获取实例

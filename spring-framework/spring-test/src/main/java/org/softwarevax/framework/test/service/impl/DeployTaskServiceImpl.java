@@ -8,7 +8,7 @@ import org.softwarevax.framework.test.service.DeployTaskService;
 
 import java.util.List;
 
-@ServiceVax
+@ServiceVax(name = "deployTaskService")
 public class DeployTaskServiceImpl implements DeployTaskService {
 
     @AutowiredVax

@@ -1,7 +1,8 @@
 package org.softwarevax.framework.test;
 
-import org.softwarevax.framework.core.ApplicationContext;
-import org.softwarevax.framework.core.SpringApplicationRunner;
+import com.alibaba.fastjson.JSON;
+import org.softwarevax.framework.context.ApplicationContext;
+import org.softwarevax.framework.context.SpringApplicationRunner;
 import org.softwarevax.framework.core.annotations.SpringApplicationVax;
 import org.softwarevax.framework.test.entity.DeployTask;
 import org.softwarevax.framework.test.service.impl.DeployTaskServiceImpl;
@@ -16,7 +17,7 @@ public class TestApplication {
         ApplicationContext context = SpringApplicationRunner.run(TestApplication.class);
         DeployTaskServiceImpl testService = context.getBean(DeployTaskServiceImpl.class);
         List<DeployTask> all = testService.findAll();
-        System.out.println();
+        System.out.println(JSON.toJSONString(all));
     }
 }
 

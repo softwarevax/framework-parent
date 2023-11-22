@@ -9,7 +9,7 @@ import org.softwarevax.framework.test.service.DeployTaskService;
 @UrlMapping("/task")
 public class DeployTaskController {
 
-    @AutowiredVax
+    @AutowiredVax(name = "deployTaskService")
     private DeployTaskService helloService;
 
     @UrlMapping("/findAll")

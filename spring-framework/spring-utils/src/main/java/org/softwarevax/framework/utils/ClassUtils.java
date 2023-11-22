@@ -170,6 +170,7 @@ public class ClassUtils {
             ClassReader cr = new ClassReader(className);
             ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
             cr.accept(new ClassVisitor(Opcodes.ASM9, cw) {
+                @Override
                 public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
                     MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
                     final Type[] argTypes = Type.getArgumentTypes(desc);
@@ -178,6 +179,7 @@ public class ClassUtils {
                         return mv;
                     }
                     return new MethodVisitor(Opcodes.ASM9, mv) {
+                        @Override
                         public void visitLocalVariable(String name, String desc, String signature, Label start, Label end, int index) {
                             //如果是静态方法，第一个参数就是方法参数，非静态方法，则第一个参数是 this ,然后才是方法的参数
                             int methodParameterIndex = isStatic ? index : index - 1;
@@ -209,5 +211,50 @@ public class ClassUtils {
             }
         }
         return true;
+    }
+
+    /**
+     * 获取所有继承的父类，多层级
+     */
+    private static void getExtendClass(List<Class<?>> list, Class<?> className) {
+        if(Objects.isNull(className) || className.getSuperclass().equals(Object.class)) {
+            return;
+        }
+        Class<?> superclass = className.getSuperclass();
+        list.add(superclass);
+        getExtendClass(list, superclass);
+    }
+
+    /**
+     * 获取所有的接口
+     */
+    private static void getInterfaces(List<Class<?>> list, Class<?> className) {
+        if(Objects.isNull(className)) {
+            return;
+        }
+        Class<?>[] interfaces = className.getInterfaces();
+        list.addAll(Arrays.asList(interfaces));
+        for (Class<?> clazz : interfaces) {
+            getInterfaces(list, clazz);
+        }
+    }
+
+    /**
+     * 获取所有接口及父类的接口，多层级
+     */
+    public static List<Class<?>> getInterfaces(Class<?> className) {
+        if(Objects.isNull(className)) {
+            return null;
+        }
+        List<Class<?>> interfaces = new ArrayList<>();
+        interfaces.addAll(Arrays.asList(className.getInterfaces()));
+        List<Class<?>> list = new ArrayList<>();
+        getExtendClass(list, className);
+        for (Class<?> clazz : list) {
+            List<Class<?>> inter = new ArrayList<>();
+            getInterfaces(inter, clazz);
+            interfaces.addAll(inter);
+        }
+        return interfaces;
     }
 }

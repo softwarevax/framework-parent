@@ -1,7 +1,7 @@
 package org.softwarevax.framework.mybatis.config;
 
-import org.softwarevax.framework.core.ApplicationContext;
-import org.softwarevax.framework.core.ApplicationContextEventAware;
+import org.softwarevax.framework.context.ApplicationContext;
+import org.softwarevax.framework.context.event.ApplicationContextEvent;
 import org.softwarevax.framework.mybatis.GlobalConstants;
 import org.softwarevax.framework.mybatis.bean.Constants;
 import org.softwarevax.framework.mybatis.jdbc.JdbcManager;
@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 
-public abstract class MapperJdbcConfigurer implements ApplicationContextEventAware {
+public abstract class MapperJdbcConfigurer implements ApplicationContextEvent {
 
     public final static String JDBC_CLASSPATH_NAME = "jdbc.properties";
 
@@ -39,8 +39,9 @@ public abstract class MapperJdbcConfigurer implements ApplicationContextEventAwa
                 iterator.remove();
                 continue;
             }
-            ctx.registry(ProxyUtils.getProxy(clazz, new MapperProxyFactory(jdbcManager)));
+            ctx.registry(clazz.getSimpleName(), ProxyUtils.getProxy(clazz, new MapperProxyFactory(jdbcManager)));
         }
+        ctx.refresh(false);
     }
 
     public JdbcProperties getJdbcProperties() {

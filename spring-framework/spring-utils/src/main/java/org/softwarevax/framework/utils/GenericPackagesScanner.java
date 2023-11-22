@@ -7,8 +7,18 @@ public class GenericPackagesScanner implements PackageScanner {
 
     private String[] packages;
 
+    public GenericPackagesScanner() {
+    }
+
+    public GenericPackagesScanner(String[] packages) {
+        this.packages = packages;
+    }
+
     @Override
     public Set<Class<?>> getFullyQualifiedClassNameList() {
+        if(ArrayUtils.isEmpty(packages)) {
+            return new HashSet<>();
+        }
         Set<Class<?>> classSet = new HashSet<>();
         if (ArrayUtils.isEmpty(this.packages)) {
             return classSet;

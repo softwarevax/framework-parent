@@ -1,7 +1,7 @@
 package org.softwarevax.framework.mvc;
 
 import com.alibaba.fastjson.JSON;
-import org.softwarevax.framework.core.ApplicationContext;
+import org.softwarevax.framework.context.ApplicationContext;
 import org.softwarevax.framework.rpc.entity.MethodEntity;
 import org.softwarevax.framework.rpc.entity.ServiceConfig;
 import org.softwarevax.framework.rpc.entity.ServiceEntity;

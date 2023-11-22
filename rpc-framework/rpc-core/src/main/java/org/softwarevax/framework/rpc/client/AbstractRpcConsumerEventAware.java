@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSON;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import org.softwarevax.framework.beans.factory.BeanDefinition;
-import org.softwarevax.framework.core.ApplicationContext;
-import org.softwarevax.framework.core.ApplicationContextEventAware;
+import org.softwarevax.framework.context.ApplicationContext;
+import org.softwarevax.framework.context.event.ApplicationContextEvent;
 import org.softwarevax.framework.rpc.BootstrapClient;
 import org.softwarevax.framework.rpc.entity.ServiceConfig;
 import org.softwarevax.framework.rpc.protocol.ClientHandler;
@@ -17,7 +17,7 @@ import org.softwarevax.framework.utils.StringUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public abstract class AbstractRpcConsumerEventAware implements ApplicationContextEventAware {
+public abstract class AbstractRpcConsumerEventAware implements ApplicationContextEvent {
 
     public final static String RPC_CLASSPATH_NAME = "rpc.properties";
 
@@ -28,7 +28,7 @@ public abstract class AbstractRpcConsumerEventAware implements ApplicationContex
             String serverUrl = (String) prop.get(Constants.SERVER_REGISTRY_URL);
             String packages = (String) prop.get(Constants.SERVER_REGISTRY_PACKAGE);
             List<Class<?>> registry = new ArrayList<>();
-            Iterator<Class<?>> iterator = ctx.getClasses(null).iterator();
+            Iterator<Class<?>> iterator = null;//ctx.getClasses(null).iterator();
             while (iterator.hasNext()) {
                 Class<?> next = iterator.next();
                 String packageName = next.getPackage().getName();
@@ -70,8 +70,8 @@ public abstract class AbstractRpcConsumerEventAware implements ApplicationContex
         }
     }
 
-    @Override
+    /*@Override
     public int getOrder() {
         return 9999;
-    }
+    }*/
 }

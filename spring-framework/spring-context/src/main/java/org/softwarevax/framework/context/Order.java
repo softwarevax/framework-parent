@@ -1,4 +1,4 @@
-package org.softwarevax.framework.core;
+package org.softwarevax.framework.context;
 
 public interface Order {
 

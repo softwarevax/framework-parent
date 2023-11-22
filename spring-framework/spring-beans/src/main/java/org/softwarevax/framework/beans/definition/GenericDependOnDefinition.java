@@ -14,7 +14,10 @@ import java.lang.reflect.*;
 public class GenericDependOnDefinition implements DependOnDefinition {
 
     /**
-     * 方法、属性，构造器，参数
+     * 方法、
+     * 属性，
+     * //构造器，
+     * 参数
      */
     protected AnnotatedElement annotatedElement;
 
@@ -27,6 +30,11 @@ public class GenericDependOnDefinition implements DependOnDefinition {
      * 待注入bean的名称
      */
     protected String beanName;
+
+    /**
+     * 参数的类型
+     */
+    protected Class<?> clazz;
 
     /**
      * 当前元素是属于哪个类
@@ -59,6 +67,7 @@ public class GenericDependOnDefinition implements DependOnDefinition {
         int i = 0;
         for(Class<? extends Annotation> clazz : GlobalConstants.AUTOWIRED_ANNOTATIONS) {
             if(this.annotatedElement.isAnnotationPresent(clazz)) {
+                this.clazz = ClassUtils.getType(annotatedElement);
                 this.enableInjectAnnotation = clazz;
                 this.isRequired = AnnotationUtils.get(annotatedElement, clazz, "required");
                 this.beanName = AnnotationUtils.get(annotatedElement, clazz, GlobalConstants.AUTOWIRED_NAME[i]);
@@ -85,10 +94,12 @@ public class GenericDependOnDefinition implements DependOnDefinition {
         throw new RuntimeException("不支持的注解位置");
     }
 
+    @Override
     public Class<? extends Annotation> getAnnotation() {
         return this.enableInjectAnnotation;
     }
 
+    @Override
     public String getBeanName() {
         return this.beanName;
     }
@@ -131,5 +142,14 @@ public class GenericDependOnDefinition implements DependOnDefinition {
     @Override
     public boolean isRequired() {
         return this.isRequired;
+    }
+
+    @Override
+    public Class<?> getClazz() {
+        return clazz;
+    }
+
+    public void setClazz(Class<?> clazz) {
+        this.clazz = clazz;
     }
 }

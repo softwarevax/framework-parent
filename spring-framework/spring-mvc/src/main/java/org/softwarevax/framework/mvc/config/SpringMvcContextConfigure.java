@@ -1,32 +1,33 @@
 package org.softwarevax.framework.mvc.config;
 
 import org.softwarevax.framework.beans.annotation.ControllerVax;
-import org.softwarevax.framework.core.ApplicationContext;
-import org.softwarevax.framework.core.ApplicationContextEventAware;
+import org.softwarevax.framework.context.ApplicationContext;
+import org.softwarevax.framework.context.event.ApplicationContextEvent;
 import org.softwarevax.framework.mvc.DefaultHttpInvoke;
 import org.softwarevax.framework.mvc.MethodHandler;
 import org.softwarevax.framework.mvc.annotations.UrlMapping;
 import org.softwarevax.framework.mvc.exception.MappingExistsException;
 import org.softwarevax.framework.rpc.BootstrapServer;
-import org.softwarevax.framework.utils.AnnotationUtils;
-import org.softwarevax.framework.utils.ClassUtils;
-import org.softwarevax.framework.utils.PathUtils;
-import org.softwarevax.framework.utils.PropertyUtils;
+import org.softwarevax.framework.utils.*;
 
 import java.lang.reflect.Method;
 import java.util.*;
 
-public abstract class SpringMvcContextConfigure implements ApplicationContextEventAware {
+public abstract class SpringMvcContextConfigure implements ApplicationContextEvent {
 
     public final static String MVC_CLASSPATH_NAME = "mvc.properties";
+
+    private final static String packages = "org.softwarevax.framework.mvc";
+
+    private PackageScanner packageScanner;
 
     @Override
     public void onEvent(ApplicationContext ctx) {
         try {
             Properties prop = PropertyUtils.getClassPathProperties(MVC_CLASSPATH_NAME);
-            ctx.setPort(Integer.parseInt(prop.getProperty("port")));
+            packageScanner = new GenericPackagesScanner(ctx.getPackages());
             // 1、找到被controller注解标记的类
-            Set<Class<?>> classes = ctx.getClasses(null);
+            Set<Class<?>> classes = packageScanner.getFullyQualifiedClassNameList();
             Set<Class<?>> webSet = new HashSet<>();
             Iterator<Class<?>> iterator = classes.iterator();
             while (iterator.hasNext()) {

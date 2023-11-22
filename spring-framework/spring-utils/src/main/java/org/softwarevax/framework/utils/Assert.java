@@ -1,5 +1,7 @@
 package org.softwarevax.framework.utils;
 
+import java.util.List;
+
 public class Assert {
 
     /**
@@ -42,6 +44,12 @@ public class Assert {
      */
     public static void notEmpty(Object[] objs, String msg) {
         if(objs == null || objs.length == 0) {
+            throw new RuntimeException(msg);
+        }
+    }
+
+    public static void notEmpty(List<?> objs, String msg) {
+        if(objs == null || objs.size() == 0) {
             throw new RuntimeException(msg);
         }
     }

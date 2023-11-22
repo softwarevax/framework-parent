@@ -9,6 +9,6 @@ import java.util.List;
 @RepositoryVax
 public interface DeployTaskMapper {
 
-    @SelectVax("select * from qrtz_deploy_task")
+    @SelectVax("select * from deploy_task")
     List<DeployTask> queryList();
 }
