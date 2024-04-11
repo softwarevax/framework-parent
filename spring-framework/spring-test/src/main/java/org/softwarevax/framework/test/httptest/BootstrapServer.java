@@ -1,4 +1,4 @@
-package org.softwarevax.framework.rpc;
+package org.softwarevax.framework.test.httptest;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -7,9 +7,6 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
-import org.softwarevax.framework.rpc.protocol.HttpHandler;
-import org.softwarevax.framework.rpc.protocol.http.HttpInvoke;
-import org.softwarevax.framework.rpc.utils.NetWorkUtils;
 
 public class BootstrapServer {
 
@@ -25,7 +22,6 @@ public class BootstrapServer {
 
     public BootstrapServer(int port, HttpInvoke invoke) {
         this.port = port;
-        NetWorkUtils.getPort(port);
         this.boss = new NioEventLoopGroup();
         this.worker = new NioEventLoopGroup();
         this.bootstrap = new ServerBootstrap();
